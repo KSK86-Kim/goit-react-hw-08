@@ -8,6 +8,10 @@ import App from './App';
 import 'modern-normalize/modern-normalize.css';
 import './index.css';
 
+function gitLive() {
+  console.log('qwe');
+}
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store.store}>
