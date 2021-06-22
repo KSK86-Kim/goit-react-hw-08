@@ -11,29 +11,29 @@ export default function InputForm() {
   const dispatch = useDispatch();
   const entries = useSelector(getAllEntries);
 
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [contact, setContact] = useState({
+    name: '',
+    number: '',
+  });
 
-  const onNameInput = event => {
-    setName(event.target.value);
-  };
-
-  const onNumberInput = event => {
-    setNumber(event.target.value);
+  const onInputChange = event => {
+    const fieldType = event.target.name;
+    const fieldContent = event.target.value;
+    setContact(prev => ({ ...prev, [fieldType]: fieldContent }));
   };
 
   const onSubmitEntry = event => {
     event.preventDefault();
-    if (entries.find(entry => entry.name === name)) {
+    if (entries.find(entry => entry.name === contact.name)) {
       error({
         title: 'Error!',
-        text: `Notice me, senpai! It's me, ${name}, I'm already in the list!`,
+        text: `Notice me, senpai! It's me, ${contact.name}, I'm already in the list!`,
         icons: 'brighttheme',
       });
       event.target.reset();
       return;
     }
-    dispatch(addEntry({ name, number }));
+    dispatch(addEntry(contact));
     event.target.reset();
   };
 
@@ -43,18 +43,20 @@ export default function InputForm() {
         <label className="inputLabel">
           First / Last name :
           <input
+            name="name"
             className="inputField"
             type="text"
-            onChange={onNameInput}
+            onChange={onInputChange}
             required
           />
         </label>
         <label className="inputLabel">
           Phone number :
           <input
+            name="number"
             className="inputField"
             type="tel"
-            onChange={onNumberInput}
+            onChange={onInputChange}
             required
           />
         </label>
